@@ -68,3 +68,13 @@ This supersedes any statement above that a role file is unmodified or that the `
 Verification: not yet run. The headless `claude -p` loading check was left out of this pass; the first session that works in a prepared worktree should run it (see "Check that the roles load").
 
 The steps at which each role runs are in `.claude/skills/implement-ticket/SKILL.md`.
+
+## Local change: SDLC kit (2026-11-22)
+
+This pass added, without changing any role definition except the lines named below:
+
+- The review gate hook `.claude/hooks/role_gate.py` (gate roles Code Reviewer and Reality Checker, both installed) and `.claude/settings.json`.
+- The `next-ticket` driver, the `ui-ux-pro-max` and `unslop` skills, CI, pull request and issue templates, `docs/ui-quality.md` and `docs/owner-decisions.md`. See `CLAUDE.md` "Delivery workflow".
+- Code Reviewer and Reality Checker: the caller writes the diff and evidence to `.claude/state/review/` and names the files. Code Reviewer: one checklist line for `docs/ui-quality.md`. Developer Tooling Engineer: one line saying the CI workflow exists. These lines sit inside the "In this repository" section and are removed with it when comparing a role with upstream.
+
+Verification, 2026-11-22 (after the SDLC kit): one headless run from the worktree root with Claude Code 2.1.323, `claude -p "List every project subagent in .claude/agents with its name and tools, say whether each starts with a section titled In this repository, and list the project skills." --model haiku`. The answer listed seven agents: Code Reviewer, Reality Checker, Application Security Engineer and Software Architect with `Read, Grep, Glob`; Rust Refactoring Specialist, Developer Tooling Engineer and `loop-verifier` with no `tools` line. Six had an "In this repository" section; `loop-verifier` did not. It listed eight project skills: implement-ticket, next-ticket, issue-triage, loop-budget, loop-constraints, loop-intake, unslop, ui-ux-pro-max. The run also printed two warnings: the allow rules of `.claude/settings.json` were ignored because the workspace was not yet trusted (the worktree had never been opened interactively), and the `Write(**/.claude/...)` ask rules are not matched by file permission checks, since Claude Code applies only `Edit(...)` rules to file edits (`Edit` rules already cover the same paths). The `Write` entries come from the shared kit template and were left unchanged. The answer was not checked against a launched role.

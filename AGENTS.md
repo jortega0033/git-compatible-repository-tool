@@ -18,6 +18,8 @@ Planned: introduced by ticket #2. Rust, standard library first, minimal pinned c
 
 To implement a GitHub issue, follow the steps in [.claude/skills/implement-ticket/SKILL.md](.claude/skills/implement-ticket/SKILL.md) and the section "Agents and ticket work" in [CLAUDE.md](CLAUDE.md). The role files in `.claude/agents/` each start with a section "In this repository" that holds the project rules for that role. The review gate and the acceptance gate apply to every ticket, and the agent that wrote the change cannot pass them. Only the owner merges.
 
+The owner starts ticket work with `/next-ticket`; agents stop at a ready pull request and only the owner merges. See the "Delivery workflow" part of [CLAUDE.md](CLAUDE.md).
+
 ## Loop conventions
 
 - The loop runs at L1: report-only, started by hand. It proposes; it does not label, comment, close, edit source, push or merge.

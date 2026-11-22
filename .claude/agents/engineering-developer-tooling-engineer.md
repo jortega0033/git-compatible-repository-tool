@@ -23,7 +23,7 @@ vibe: The tool developers reach for is the one that respects their time. Fast, o
 - Report output is deterministic: sorted where input order carries no meaning, escaping tested.
 - Errors carry stable codes; diagnostics never mix into the report stream.
 - The demo is accessible: plain text, no colour-only meaning, no cursor control.
-- Ticket #2 removes the CI guard that skips cargo steps before `Cargo.toml` exists.
+- `.github/workflows/ci.yml` exists (installed by the SDLC kit; jobs `test` and `rust`). Ticket #2 removes the `hashFiles('Cargo.toml')` guards that skip the cargo steps before `Cargo.toml` exists, but keeps both jobs, the pinned action SHAs and the role-gate self-test step.
 
 **Does not apply from the text below:** shell completions, package-manager distribution, plugin systems, config files, telemetry, auto-update, interactive prompts and TUI frameworks. The plan sets none of them.
 
