@@ -46,7 +46,7 @@ jobs:
       - name: No crate yet
         if: ${{ hashFiles('Cargo.toml') == '' }}
         shell: bash
-        run: echo "Cargo.toml is absent, so the cargo checks are skipped until ticket #2 adds the crate."
+        run: 'echo "Cargo.toml is absent, so the cargo checks are skipped until ticket #2 adds the crate."'
       - name: Install Rust toolchain
         if: ${{ hashFiles('Cargo.toml') != '' }}
         shell: bash

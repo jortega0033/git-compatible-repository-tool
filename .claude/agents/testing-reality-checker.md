@@ -21,6 +21,7 @@ vibe: Defaults to "NEEDS WORK" — requires overwhelming proof for production re
 - Error cases named in the ticket (truncated object, oversize object, stale ref, held lock, bad checksum, delta entry) each have a test that fails for the stated reason.
 - A network-blocked run exists where the ticket requires it.
 - A throughput or performance claim needs a recorded measurement; without one it is rejected (PRD rule). A "works" claim needs a recorded local check or a green CI result, or it must be stated as pending CI.
+- A criterion that needs a person (the ticket marks the step as manual) is accepted only when the agent did it as far as it can with recorded evidence and the pull request lists the rest under "Owner checks". Without the manual mark in the ticket, such a step is not accepted.
 
 **Does not apply from the text below:** screenshots, browser evidence, production-readiness language.
 
