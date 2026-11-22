@@ -11,7 +11,7 @@ The specification stays the source of truth for behaviour. This file adds no rul
 | `cli` | argument parsing, command dispatch, exit codes | Offline runtime | #2 |
 | `report` | schema-versioned JSON encoder, string escaping, stable error codes, separate diagnostics stream | Offline runtime | #2 |
 | `limits` | the explicit object, payload, path, graph, pack and index limits | PRD "Implementation preflight" | #2 |
-| `fixture` | fixture root, tool-owned marker, path validation (relative only, no `..`, no reserved `.git`, no symlink or reparse point, case and normalization collisions) | Pack reading and filesystem rules | #2, extended by #3 and the diagnostics ticket (E44-7, `#NEW-A`) |
+| `fixture` | fixture root, tool-owned marker, path validation (relative only, no `..`, no reserved `.git`, no symlink or reparse point, case and normalization collisions) | Pack reading and filesystem rules | #2, extended by #3 and the diagnostics ticket (E44-7, #8) |
 | `hash`, `zlib` | the only code that touches the `sha1` and `flate2` crates; narrow interfaces | Offline runtime | #2 |
 | `object` | typed object storage: type, size, bytes, ID; loose backend; dispatch to other backends | Object encodings | #2 |
 | `tree`, `commit` | encode and parse; they use `object`, they are not part of it | Object encodings | #2, #3 |
