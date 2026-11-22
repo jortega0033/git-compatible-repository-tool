@@ -12,6 +12,10 @@ Each command and its observed result (pasted output or a CI run link). The Rust 
 |---|---|
 | | |
 
+## Owner checks
+
+Steps the ticket marks as manual: what the agent did and recorded, and what remains for the owner. Write 'None' if there are none.
+
 ## Agent roles run
 
 | Role | What it was asked | Verdict |
