@@ -13,6 +13,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # The hook self-test is the only Python in this repository, so one Python version
+  # is enough here. The 3.12/3.13 matrix rule of the kit targets Python repositories.
   test:
     name: test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}

@@ -45,7 +45,7 @@ There is no Rust toolchain on the owner's PC and none may be installed for this 
 | Test | `cargo test --locked --offline` | planned: introduced by ticket #2 |
 | Format check | `cargo fmt --check` | planned: introduced by ticket #2 |
 | Lint | `cargo clippy --all-targets --locked --offline -- -D warnings` | planned: introduced by ticket #2 |
-| Run the tool | `cargo run --locked --offline -- <command>` (commands: init, inspect, stage, status, ref, merge, export, pack inspect) | planned: introduced by ticket #2, later commands by #3 to #6 |
+| Run the tool | `cargo run --locked --offline -- <command>` (binary `gitcompat`; commands: `preflight`, `init`, `snapshot`, `inspect`, then `stage`, `status`, `ref`, `merge`, `export`, `pack-inspect`; spelling is the plan's default and is frozen by ticket #2, so follow the README once it exists) | planned: introduced by ticket #2, later commands by #3 to #6 |
 | Repeatable demo | the command sequence in the README | planned: introduced by ticket #2, extended by #7 |
 | Oracle fixture | `git init --object-format=sha1 --ref-format=files --initial-branch main` | specified in docs/TECHNICAL_SPEC.md; used by tests from ticket #2 |
 | Oracle checks | `git cat-file`, `git ls-tree -rz`, `git rev-parse`, `git status --porcelain=v1 -z`, `git fsck --strict`, `git verify-pack` | specified in docs/TECHNICAL_SPEC.md; used by tests from ticket #2 |
@@ -124,7 +124,7 @@ How a ticket reaches the owner. Each piece is described in its own file; this pa
 - **Permissions:** [`.claude/settings.json`](.claude/settings.json). Edits to CI, agent configuration and Loop files ask first, in the main checkout and in any ticket worktree (shell-made edits are not covered, so a ticket never changes agent configuration); force pushes, pushes to `main`, `gh pr merge`, releases and reads of `.env` are denied.
 - **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Jobs `test` and `rust` must be green on the current diff before a pull request is marked ready. The agent does not poll: it ends its turn with "Draft pull request #N is waiting for CI" and reads `gh pr checks` once when woken. Reviewers read the diff and evidence from `.claude/state/review/`. An acceptance step that needs a person is listed under "Owner checks" in the pull request.
 - **Pull request:** [`.github/pull_request_template.md`](.github/pull_request_template.md). Tickets use [`.github/ISSUE_TEMPLATE/implementation-ticket.md`](.github/ISSUE_TEMPLATE/implementation-ticket.md).
-- **Labels:** `status:ready`, `status:blocked`, `status:in-progress`, `needs-decision`.
+- **Labels:** `status:ready`, `status:blocked`, `status:in-progress`, `needs-decision`, `tracking`.
 - **Changelog:** every ticket pull request adds one line under Unreleased in [CHANGELOG.md](CHANGELOG.md).
 - **UI and copy:** [docs/ui-quality.md](docs/ui-quality.md); the `ui-ux-pro-max` and `unslop` skills are in `.claude/skills/`.
 - **Decisions:** [docs/owner-decisions.md](docs/owner-decisions.md). Security reports: [SECURITY.md](SECURITY.md).

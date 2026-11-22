@@ -51,7 +51,7 @@ From the repository root, in a new session:
 claude -p "List the project-level subagents defined in .claude/agents with the tools each one may use."
 ```
 
-The four reviewer roles and `loop-verifier` must report exactly `Read, Grep, Glob`. This check was not run when the roles were installed; see the dated verification lines below once it has been.
+The four reviewer roles and `loop-verifier` must report exactly `Read, Grep, Glob`. The check was not run when the roles were installed (superseded: see the verification lines dated 2026-11-22 below).
 
 ## Updating
 
@@ -65,7 +65,7 @@ A section headed "In this repository" was then inserted directly after the front
 
 This supersedes any statement above that a role file is unmodified or that the `tools:` line is the only local change. To compare a role with the pinned upstream file, remove the "Use proactively" sentence (in a description that has no final full stop upstream, also the full stop that was added in front of it), the section "In this repository" together with the blank line after it, and the `tools:` line where one was added; the result then has the upstream SHA-256 listed above.
 
-Verification: not yet run. The headless `claude -p` loading check was left out of this pass; the first session that works in a prepared worktree should run it (see "Check that the roles load").
+Verification: not run in this pass (superseded by the verification lines dated 2026-11-22 under "Local change: SDLC kit" and "Local change: loop-verifier" below).
 
 The steps at which each role runs are in `.claude/skills/implement-ticket/SKILL.md`.
 
@@ -78,3 +78,9 @@ This pass added, without changing any role definition except the lines named bel
 - Code Reviewer and Reality Checker: the caller writes the diff and evidence to `.claude/state/review/` and names the files. Code Reviewer: one checklist line for `docs/ui-quality.md`. Developer Tooling Engineer: one line saying the CI workflow exists. These lines sit inside the "In this repository" section and are removed with it when comparing a role with upstream.
 
 Verification, 2026-11-22 (after the SDLC kit): one headless run from the worktree root with Claude Code 2.1.323, `claude -p "List every project subagent in .claude/agents with its name and tools, say whether each starts with a section titled In this repository, and list the project skills." --model haiku`. The answer listed seven agents: Code Reviewer, Reality Checker, Application Security Engineer and Software Architect with `Read, Grep, Glob`; Rust Refactoring Specialist, Developer Tooling Engineer and `loop-verifier` with no `tools` line. Six had an "In this repository" section; `loop-verifier` did not. It listed eight project skills: implement-ticket, next-ticket, issue-triage, loop-budget, loop-constraints, loop-intake, unslop, ui-ux-pro-max. The run also printed two warnings: the allow rules of `.claude/settings.json` were ignored because the workspace was not yet trusted (the worktree had never been opened interactively), and the `Write(**/.claude/...)` ask rules are not matched by file permission checks, since Claude Code applies only `Edit(...)` rules to file edits (`Edit` rules already cover the same paths). The `Write` entries come from the shared kit template and were left unchanged. The answer was not checked against a launched role.
+
+## Local change: loop-verifier read-only tools (2026-11-22)
+
+`loop-verifier.md` came from the Loop Engineering scaffold, not from Agency Agents. Its generated frontmatter had no `tools:` line, so it inherited every tool, which contradicted `LOOP.md` and the list above. The line `tools: Read, Grep, Glob` was added, and its instruction to run the tests itself was replaced by "answer `ESCALATE_HUMAN` if the verdict depends on a test run you cannot see recorded output for". Details are in `LOOP.md` "Verifier".
+
+Verification, 2026-11-22: one headless run from the worktree root with Claude Code 2.1.323, `claude -p "List every project subagent in .claude/agents with its name and tools. Answer as a short list." --model haiku`. The answer listed seven agents. Code Reviewer, Reality Checker, Application Security Engineer, Software Architect and `loop-verifier` reported `Read, Grep, Glob`; Rust Refactoring Specialist and Developer Tooling Engineer reported no `tools:` line (they inherit all tools, as intended for the implementer roles). The run was not checked against a launched role.

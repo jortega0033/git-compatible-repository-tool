@@ -5,7 +5,9 @@ updates:
     schedule:
       interval: "weekly"
   # The crate does not exist yet (ticket #2 creates Cargo.toml); Dependabot ignores
-  # a directory without a manifest until then.
+  # a directory without a manifest until then. Ticket #2 commits a `vendor/` bundle and
+  # builds with `--offline`, so a Dependabot cargo pull request must also re-run
+  # `cargo vendor` and commit `vendor/`, or the offline build breaks. Reviewers check that.
   - package-ecosystem: "cargo"
     directory: "/"
     schedule:

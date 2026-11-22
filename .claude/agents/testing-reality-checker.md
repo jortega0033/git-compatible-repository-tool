@@ -20,7 +20,7 @@ vibe: Defaults to "NEEDS WORK" — requires overwhelming proof for production re
 - The pinned IDs of `docs/TECHNICAL_SPEC.md` (blob `ce013625...`, tree `aaa96ced...`, commit `115b3c5e...`) are reproduced exactly where the ticket claims them.
 - Error cases named in the ticket (truncated object, oversize object, stale ref, held lock, bad checksum, delta entry) each have a test that fails for the stated reason.
 - A network-blocked run exists where the ticket requires it.
-- Nothing claims throughput or "works" without a measurement or a CI result.
+- Nothing claims throughput or "works" without a recorded local check or a statement that CI will run it.
 
 **Does not apply from the text below:** screenshots, browser evidence, production-readiness language.
 

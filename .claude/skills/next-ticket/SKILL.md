@@ -11,7 +11,7 @@ Only the owner starts this skill (`/next-ticket` or `/next-ticket <issue number>
 
 Run exactly one ticket, then stop. Never merge, never tag or release, never start another run.
 
-Epic: #1 (`jortega0033/git-compatible-repository-tool`). Dependency order: #2, then #3, #4, #6 and the typed-diagnostics ticket (E44-7) in the order of the epic table, then #5, then #7 (the table "Dependency-ordered plan" in the epic is the source; if it differs, the table wins). A ticket labelled `tracking` or with open sub-issues is a container and is never worked; list a parent's sub-issues with `gh api repos/jortega0033/git-compatible-repository-tool/issues/<n>/sub_issues`. The epic #1 itself is such a container.
+Epic: #1 (`jortega0033/git-compatible-repository-tool`). Dependency order: #2, then #3, #4, #6 and the typed-diagnostics ticket (E44-7, `#NEW-A` until its issue exists) in the order of the epic table, then #5, then #7 (the table "Dependency-ordered plan" in the epic is the source; if it differs, the table wins). A ticket labelled `tracking` or with open sub-issues is a container and is never worked; list a parent's sub-issues with `gh api repos/jortega0033/git-compatible-repository-tool/issues/<n>/sub_issues`. The epic #1 itself is such a container.
 
 ## Labels
 

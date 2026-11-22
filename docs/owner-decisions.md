@@ -15,7 +15,7 @@ All entries are dated 2026-11-22.
 | 7 | Loop Engineering stays at L1, report-only and unscheduled. | 2026-11-22 | `LOOP.md`, `loop-constraints.md`, `loop-budget.md` |
 | 8 | Continuous integration runs on Linux and Windows; the default branch requires a pull request and green checks. | 2026-11-22 | `.github/workflows/ci.yml`; branch protection is a repository setting applied by the owner's orchestrator, not a file |
 | 9 | Permission rules: documented commands are allowed; force pushes, pushes to the default branch, merges, releases and reads of secrets are denied; edits to CI, agent configuration and Loop files ask first. | 2026-11-22 | `.claude/settings.json` (`permissions`) |
-| 10 | Open decisions on tickets are settled with the ticket's stated default; where a ticket states none, the conservative option is taken and flagged in the issue. | 2026-11-22 | The list below (decisions D1 to D14 of epic #1); the issues themselves |
+| 10 | Open decisions on tickets are settled with the ticket's stated default; where a ticket states none, the conservative option is taken and flagged in the issue. | 2026-11-22 | The list below (decisions D1 to D15 of epic #1); the issues themselves |
 | 11 | Rust is verified in CI only; nothing is installed on the owner's PC. | 2026-11-22 | `.github/workflows/ci.yml` (job `rust`), `CLAUDE.md` "Setup and commands" |
 | 12 | The ten UI rules in `docs/ui-quality.md` are binding, and the `ui-ux-pro-max` and `unslop` skills are installed in the repository and used for UI work and for copy. | 2026-11-22 | `docs/ui-quality.md`, `.claude/skills/ui-ux-pro-max/`, `.claude/skills/unslop/`, `.claude/skills/implement-ticket/SKILL.md` |
 
@@ -29,7 +29,7 @@ Source: the epic #1 body and each ticket's "Owner decisions and defaults" text. 
 | D2 | Rust toolchain pin | the stable release current when #2 starts, in `rust-toolchain.toml` | #2 | settled by default |
 | D3 | Crates | `sha1` and `flate2` only, default Rust backend, vendored and committed | #2 | settled by default |
 | D4 | Project licence | none selected; README keeps "not selected"; vendored crate licences recorded in `docs/dependencies.md` | #2 | settled by default |
-| D5 | Limits | values in the "Limits" definition of epic #1, in one `limits` module | #2 | settled by default |
+| D5 | Limits | values in the "Shared definitions" section of epic #1 (heading "Limits"), in one `limits` module | #2 | settled by default |
 | D6 | Platforms | CI on `ubuntu-latest` and `windows-latest`; mode-bit and stat-exact tests run on Linux only, skipped with a recorded reason on Windows | #2 to #7 | settled by default |
 | D7 | Minimum Git | 2.45 for `--ref-format=files`; older Git omits the flag and the report says so | #2 | settled by default |
 | D8 | Output | JSON on stdout is the contract; text via `--format text`; diagnostics on stderr | #2, #7 | settled by default |
@@ -37,9 +37,10 @@ Source: the epic #1 body and each ticket's "Owner decisions and defaults" text. 
 | D10 | Fixture ownership | `.gcrt-fixture` marker required for any write | #2 | settled by default |
 | D11 | Case-fold collisions | rejected on every platform | #3 | settled by default |
 | D12 | Ambiguous merge base | refuse; no recursive merge | #5 | settled by default |
-| D13 | Unknown formats | fail closed with a typed code | E44-7 | settled by default |
+| D13 | Unknown formats | fail closed with a typed code | E44-7 (`#NEW-A`) | settled by default |
 | D14 | Compatibility report | checked in once from a CI run | #7 | settled by default |
+| D15 | Normalization and duplicate-path collisions | duplicate paths and case-fold collisions fail with `path_collision`; names containing combining marks or Hangul jamo fail with `path_unicode_unsupported` (fail closed, no normalization table or extra crate); both before any write, on every platform | #3 | settled by default |
 
-Per-ticket defaults beyond D1 to D14: #2: the toolchain pin is the stable release current when the ticket starts; #4: on Windows, stat fields without an equivalent are written as zero and status relies on the rehash, and the exact stat comparison runs on Linux only; #5: the merge commit message is `Merge <branch>` unless `--message` is given and there is no text-level conflict resolution; #6: only undeltified objects, no pack writing; #3: only `refs/heads/**` is writable and branch names follow `git check-ref-format`. The next free issue number holds E44-7 (typed diagnostics); its default is D13.
+Per-ticket defaults beyond D1 to D15: #2: the toolchain pin is the stable release current when the ticket starts; #4: on Windows, stat fields without an equivalent are written as zero and status relies on the rehash, and the exact stat comparison runs on Linux only; #5: the merge commit message is `Merge <branch>` unless `--message` is given and there is no text-level conflict resolution; #6: only undeltified objects, no pack writing; #3: only `refs/heads/**` is writable and branch names follow `git check-ref-format`. Ticket E44-7 (typed diagnostics) has its own issue, shown as `#NEW-A` in this file until it is created; its default is D13. The publish stage replaces `#NEW-A` with the real issue number here, in the table above, in `.claude/skills/next-ticket/SKILL.md` and in `docs/architecture.md`.
 
 No open decision lacks a default.

@@ -56,7 +56,9 @@ Doctor exit codes: 0 healthy, 1 warnings, 2 blocked. Both commands fetch the pac
 
 ## Verifier
 
-`.claude/agents/loop-verifier.md` is the checker for a later maker/checker level. It is limited to `Read, Grep, Glob`, so it cannot run the tests itself and must answer `ESCALATE_HUMAN` when a verdict depends on a test run. It has no role at L1 because the loop proposes no changes.
+`.claude/agents/loop-verifier.md` is the checker for a later maker/checker level. It is limited to `Read, Grep, Glob`, so it cannot run the tests itself and must answer `ESCALATE_HUMAN` when a verdict depends on a test run it cannot see recorded output for. It has no role at L1 because the loop proposes no changes.
+
+Local change to the upstream scaffold (2026-11-22): the generated file had no `tools:` line, so it inherited every tool, and its body told it to run the tests. This repository added the line `tools: Read, Grep, Glob`, changed the checklist item and the rule "run them" to read recorded output and answer `ESCALATE_HUMAN` when none exists, and added the evidence wording "from recorded output". Re-running `loop init` would overwrite these edits; re-apply them. Verified by a headless run on 2026-11-22 (see `.claude/agency-agents/README.md`).
 
 ## Budget
 
@@ -76,7 +78,9 @@ Run on 2026-11-22 (Windows 11, Node v22.23.4) after the scaffold was adapted:
 
 ## Doctor suggestions that were not adopted
 
-`loop doctor` also suggests a `docs/safety.md`, issue and pull request templates, workflows, and worktree isolation notes. They were left out on purpose: the denylists and merge policy are in `loop-constraints.md`, a scheduled workflow would be the scheduler that L1 excludes, and an L1 run edits two report files only, so it needs no worktree of its own.
+`loop doctor` also suggests a `docs/safety.md`, issue and pull request templates, workflows, and worktree isolation notes. When the loop was set up they were left out on purpose: the denylists and merge policy are in `loop-constraints.md`, a scheduled workflow would be the scheduler that L1 excludes, and an L1 run edits two report files only, so it needs no worktree of its own.
+
+The SDLC kit installed later the same day (2026-11-22) added `.github/ISSUE_TEMPLATE/implementation-ticket.md`, `.github/pull_request_template.md` and `.github/workflows/ci.yml`. Those are for ticket work and CI, not for the loop: the CI workflow runs on `pull_request` and `push` only and is not a scheduler, and the loop itself is still unscheduled and has no workflow of its own.
 
 ## Links
 
