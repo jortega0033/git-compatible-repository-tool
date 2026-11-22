@@ -1,18 +1,19 @@
 ---
 name: implement-ticket
-description: Playbook for implementing a GitHub issue in this repository from start to pull request, with the project subagents run at fixed steps. Use whenever asked to implement, start, continue or finish a ticket, an issue or an epic child, for example "implement #12" or "work on the next ticket".
+description: Playbook for implementing one GitHub issue in this repository from branch to pull request, with the project subagents run at fixed steps. It implements a ticket that /next-ticket already picked and claimed, or one the owner names, for example "implement #12". It does not pick tickets; picking is /next-ticket's job.
 argument-hint: "[issue number]"
+disable-model-invocation: true
 ---
 
 # Implement a ticket
 
-Use this playbook for every implementation ticket in this repository. `CLAUDE.md` holds the commands, the architecture boundaries, the Git workflow and the evidence rules; where this playbook and `CLAUDE.md` differ, `CLAUDE.md` wins.
+Use this playbook for every implementation ticket in this repository. `/next-ticket` picks and claims the ticket and then runs this playbook; this playbook does not pick tickets. `CLAUDE.md` holds the commands, the architecture boundaries, the Git workflow and the evidence rules; where this playbook and `CLAUDE.md` differ, `CLAUDE.md` wins.
 
 The project subagents in `.claude/agents/` are part of the work. Delegate to them at the steps below without waiting to be asked. If a step names a role that is not installed, do that step yourself and say so in the pull request.
 
 ## Steps
 
-1. **Read the ticket.** `gh issue view <number>` and the epic it belongs to. If it is a `tracking` ticket or has open sub-issues, refuse it, list its open sub-issues and stop. Also stop if the ticket is closed, `status:blocked`, `status:in-progress` or `needs-decision`. Check that every prerequisite issue is closed and that no owner decision named in the ticket is still open. If the ticket is blocked, stop and say what blocks it.
+1. **Read the ticket.** `gh issue view <number>` and the epic it belongs to. If it is a `tracking` ticket or has open sub-issues, refuse it, list its open sub-issues and stop. Also stop if the ticket is closed, `status:blocked` or `needs-decision`. Stop if it is `status:in-progress` and was not claimed by the current `/next-ticket` run (it already has an open pull request, or a branch other than the one this run created), because someone else is working on it; the label alone is expected when `/next-ticket` claimed it in step 3. Check that every prerequisite issue is closed and that no owner decision named in the ticket is still open. If the ticket is blocked, stop and say what blocks it.
 2. **Read the rules.** `CLAUDE.md`, then the architecture notes it links to.
 3. **Orient and check the approach.** Delegate as the table "Before coding" says. Settle open design questions before writing code. If the ticket adds a screen or page (none is planned), start with the `ui-ux-pro-max` skill (`python .claude/skills/ui-ux-pro-max/scripts/search.py`) and read [`docs/ui-quality.md`](../../../docs/ui-quality.md).
 4. **Branch** as the Git workflow in `CLAUDE.md` says. Never work on the default branch.
