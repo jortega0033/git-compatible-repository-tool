@@ -1,0 +1,73 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The hook self-test is the only Python in this repository, so one Python version
+  # is enough here. The 3.12/3.13 matrix rule of the kit targets Python repositories.
+  test:
+    name: test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.13"
+      - name: Review gate hook self-test
+        run: python .claude/hooks/role_gate.py --self-test
+
+  rust:
+    name: rust (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    # The cargo steps below run only once Cargo.toml exists. Ticket #2 (walking
+    # skeleton) removes every `hashFiles('Cargo.toml') != ''` guard so they run
+    # unconditionally, and pins the toolchain in rust-toolchain.toml. Until then a
+    # green run proves nothing about Rust.
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: No crate yet
+        if: ${{ hashFiles('Cargo.toml') == '' }}
+        shell: bash
+        run: 'echo "Cargo.toml is absent, so the cargo checks are skipped until ticket #2 adds the crate."'
+      - name: Install Rust toolchain
+        if: ${{ hashFiles('Cargo.toml') != '' }}
+        shell: bash
+        # rustup is preinstalled on GitHub runners. A rust-toolchain.toml (ticket #2)
+        # selects the pinned stable release; until it exists, use current stable.
+        run: |
+          rustup toolchain install stable --profile minimal --component rustfmt --component clippy
+          rustup default stable
+          rustc --version
+          cargo --version
+          git --version
+      - name: cargo fmt
+        if: ${{ hashFiles('Cargo.toml') != '' }}
+        run: cargo fmt --check
+      - name: cargo clippy
+        # run even if an earlier step failed, so every check reports
+        if: ${{ !cancelled() && hashFiles('Cargo.toml') != '' }}
+        run: cargo clippy --all-targets --locked --offline -- -D warnings
+      - name: cargo build
+        if: ${{ !cancelled() && hashFiles('Cargo.toml') != '' }}
+        run: cargo build --locked --offline
+      - name: cargo test
+        if: ${{ !cancelled() && hashFiles('Cargo.toml') != '' }}
+        run: cargo test --locked --offline
