@@ -91,22 +91,25 @@ Put this in the pull request as pasted output or a link, not as a summary. The o
 - Network-blocked run where the ticket requires it, and what was not verified and why.
 - The review gate and the acceptance gate run on every ticket, whatever its size. The session or role that wrote a change does not count as its reviewer. Read-only roles cannot run commands: give them the diff, the acceptance criteria and the recorded output.
 - List the roles that ran and their verdicts in the pull request description under "Agent roles run".
+## Agents and ticket work
+
+The project roles are Claude Code subagents in `.claude/agents/`. Their source, licence and local changes are in [.claude/agency-agents/README.md](.claude/agency-agents/README.md). Each role file starts with a section "In this repository", written for this project; it and this file override the generic upstream text that follows it. Where a role section and this file differ, this file wins.
+
+When asked to implement, continue or finish a GitHub issue, follow [.claude/skills/implement-ticket/SKILL.md](.claude/skills/implement-ticket/SKILL.md) (`/implement-ticket <issue number>` starts it by hand). Delegate to the roles without waiting to be asked; each description ends with a "Use proactively ..." sentence.
+
+| When | Role | Access | Scope here |
+|---|---|---|---|
+| Before coding | Software Architect | read-only | a ticket that adds or changes a module boundary, storage interface, dependency or the CLI surface; checks the approach against the spec and [docs/architecture.md](docs/architecture.md) |
+| While coding | Rust Refactoring Specialist | can edit | `src/` and `tests/` |
+| While coding | Developer Tooling Engineer | can edit | CLI handling and report, `Cargo.toml`, `Cargo.lock`, vendor bundle, toolchain pin, CI cargo steps, demo |
+| After coding | Application Security Engineer | read-only | parsers for objects, trees, commits, index and packs; limits; path validation; dependencies |
+| Every ticket: review gate | Code Reviewer | read-only | the full diff, before the pull request is opened |
+| Every ticket: acceptance gate | Reality Checker | read-only | each acceptance criterion against the evidence produced, after Code Reviewer |
+
+- The review gate and the acceptance gate run on every ticket. The session that wrote a change does not count as its reviewer.
+- Read-only roles cannot run commands: give them the diff, the acceptance criteria and the recorded output.
+- List the roles that ran and their verdicts in the pull request description under "Agent roles run".
 
 ## Loop
 
 Issue triage runs by hand at L1, report-only: it rewrites `issue-triage-state.md` and appends to `loop-run-log.md`, and does nothing else. No scheduler exists. See [LOOP.md](LOOP.md).
-
-## Ticket implementation: agent roles run automatically
-
-When asked to implement, continue or finish a GitHub issue, follow the playbook in [`.claude/skills/implement-ticket/SKILL.md`](.claude/skills/implement-ticket/SKILL.md). Claude Code loads it on its own for ticket work; `/implement-ticket <issue number>` starts it by hand.
-
-Delegate to the project subagents in `.claude/agents/` without waiting to be asked:
-
-- **Before coding:** Software Architect, as their descriptions say.
-- **While coding:** the implementing role that matches the files being changed.
-- **After coding:** each specialist reviewer whose trigger matches the change.
-- **On every ticket, before it is called done:** Code Reviewer, then Reality Checker.
-- The session that wrote a change does not count as its reviewer.
-- List the roles that ran and their verdicts in the pull request description under "Agent roles run".
-
-Each role's `description` ends with a "Use proactively ..." sentence, which is what makes Claude Code delegate to it without being told.

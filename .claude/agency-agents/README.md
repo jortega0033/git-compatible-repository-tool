@@ -61,6 +61,10 @@ Fetch the same paths at a newer revision, re-apply the `tools:` line to the four
 
 One sentence beginning "Use proactively" was appended to the `description:` line of every Agency Agents role in `.claude/agents/` (not to `loop-verifier`). Claude Code uses that field to decide when to delegate, so the roles now run during ticket work without being named. Nothing else in the role files changed.
 
-This supersedes any statement above that a role file is unmodified or that the `tools:` line is the only local change. To compare a role with the pinned upstream file, remove that sentence (and the `tools:` line where one was added) first.
+A section headed "In this repository" was then inserted directly after the frontmatter of every Agency Agents role (not into `loop-verifier`), before the upstream text. It is project-specific text written for this repository, not upstream text: the project and its planned stack, the files the role owns or reviews, its planned commands (or the output it must be given when it is read-only), a checklist of this project's rules with their source documents, the parts of the generic text that do not apply here, and what the role hands back. It ends with the sentence "This section and CLAUDE.md override the generic text below wherever they differ." The repository has no code yet, so every stack, module and command in these sections is marked as planned.
+
+This supersedes any statement above that a role file is unmodified or that the `tools:` line is the only local change. To compare a role with the pinned upstream file, remove the "Use proactively" sentence (in a description that has no final full stop upstream, also the full stop that was added in front of it), the section "In this repository" together with the blank line after it, and the `tools:` line where one was added; the result then has the upstream SHA-256 listed above.
+
+Verification: not yet run. The headless `claude -p` loading check was left out of this pass; the first session that works in a prepared worktree should run it (see "Check that the roles load").
 
 The steps at which each role runs are in `.claude/skills/implement-ticket/SKILL.md`.
