@@ -1,0 +1,5 @@
+# Scaffold: follow stable with the CI components. Ticket #10 pins one exact release (decision D2).
+[toolchain]
+channel = "stable"
+profile = "minimal"
+components = ["rustfmt", "clippy"]
