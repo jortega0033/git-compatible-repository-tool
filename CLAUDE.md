@@ -6,7 +6,7 @@ Instructions for work in this repository. Read this before changing anything.
 
 A planned, original, offline Rust command-line tool for people learning how Git stores data. It creates a disposable SHA-1 repository from synthetic inputs, stages and merges in a bounded subset, and reads a separate Git-created fixture. System Git is the only test oracle: it is never part of the shipped tool.
 
-**Nothing is implemented.** The repository holds the product plan, the technical specification and the backlog. There is no `Cargo.toml`, no source, no tests and no CI result. Every command below is planned and says which ticket introduces it. Do not describe anything as working until a CI run shows it.
+**Only a scaffold exists.** The repository holds the product plan, the technical specification, the backlog and an empty Rust crate: module stubs, a `gitcompat` entry point that answers `--help` and `--version`, and one smoke test each. No product behaviour is implemented; every command except `--help` and `--version` exits 1 with "not implemented yet: see #N". Do not describe anything as working until a CI run shows it.
 
 ## Sources of truth
 
@@ -41,16 +41,16 @@ There is no Rust toolchain on the owner's PC and none may be installed for this 
 
 | Purpose | Command | Status |
 |---|---|---|
-| Build | `cargo build --locked --offline` | planned: introduced by ticket #2 |
-| Test | `cargo test --locked --offline` | planned: introduced by ticket #2 |
-| Format check | `cargo fmt --check` | planned: introduced by ticket #2 |
-| Lint | `cargo clippy --all-targets --locked --offline -- -D warnings` | planned: introduced by ticket #2 |
-| Run the tool | `cargo run --locked --offline -- <command>` (binary `gitcompat`; commands: `preflight`, `init`, `snapshot`, `inspect`, then `stage`, `status`, `ref`, `merge`, `export`, `pack-inspect`; spelling is the plan's default and is frozen by ticket #2, so follow the README once it exists) | planned: introduced by ticket #2, later commands by #3 to #6 |
+| Build | `cargo build --locked --offline` | real (scaffold); CI-only |
+| Test | `cargo test --locked --offline` | real (scaffold smoke tests); CI-only |
+| Format check | `cargo fmt --check` | real; CI-only |
+| Lint | `cargo clippy --all-targets --locked --offline -- -D warnings` | real; CI-only |
+| Run the tool | `cargo run --locked --offline -- <command>` (binary `gitcompat`; commands: `preflight`, `init`, `snapshot`, `inspect`, then `stage`, `status`, `ref`, `merge`, `export`, `pack-inspect`; spelling is the plan's default and is frozen by ticket #2, so follow the README once it exists) | `--help` and `--version` are real (scaffold); `init`, `snapshot`, `inspect`, `preflight` exit 1 until #12, #15, #16, #17; later commands planned: #3 to #6 |
 | Repeatable demo | the command sequence in the README | planned: introduced by ticket #2, extended by #7 |
 | Oracle fixture | `git init --object-format=sha1 --ref-format=files --initial-branch main` | specified in docs/TECHNICAL_SPEC.md; used by tests from ticket #2 |
 | Oracle checks | `git cat-file`, `git ls-tree -rz`, `git rev-parse`, `git status --porcelain=v1 -z`, `git fsck --strict`, `git verify-pack` | specified in docs/TECHNICAL_SPEC.md; used by tests from ticket #2 |
 
-`.github/workflows/ci.yml` (jobs `test` and `rust`, Linux and Windows) is installed; its cargo steps are skipped by a `hashFiles('Cargo.toml')` guard until the crate exists. Ticket #2 makes the commands real and removes the guard. Until it merges, a green CI run proves nothing about Rust.
+`.github/workflows/ci.yml` (jobs `test` and `rust`, Linux and Windows) runs the four cargo steps unconditionally; the guard is gone. The scaffold crate has no dependencies and `rust-toolchain.toml` follows `stable`; ticket #10 adds `sha1` and `flate2` (vendored) and pins one release. The scaffold was never compiled locally, so the first CI run is its first proof.
 
 Without a local toolchain, in every pull request:
 
