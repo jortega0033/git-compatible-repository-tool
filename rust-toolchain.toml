@@ -1,5 +1,6 @@
-# Scaffold: follow stable with the CI components. Ticket #10 pins one exact release (decision D2).
+# Pinned to the stable release current when the scaffold was written (decision D2).
+# Ticket #2 re-checks the pin when it starts.
 [toolchain]
-channel = "stable"
+channel = "1.100.0"
 profile = "minimal"
 components = ["rustfmt", "clippy"]

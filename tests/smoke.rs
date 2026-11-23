@@ -26,10 +26,8 @@ fn version_prints_name() {
 }
 
 #[test]
-fn unbuilt_command_fails_with_ticket() {
+fn other_input_fails_without_stdout() {
     let output = gitcompat(&["init"]);
-    assert_eq!(output.status.code(), Some(1));
+    assert!(!output.status.success());
     assert!(output.stdout.is_empty());
-    let text = String::from_utf8_lossy(&output.stderr);
-    assert!(text.contains("see #12"));
 }

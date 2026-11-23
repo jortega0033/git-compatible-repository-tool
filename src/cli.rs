@@ -5,17 +5,10 @@ use std::process::ExitCode;
 /// One-line responsibility, copied from docs/architecture.md.
 pub const RESPONSIBILITY: &str = "argument parsing, command dispatch, exit codes.";
 
-/// Commands of ticket #2 and the child ticket that implements each.
-const COMMANDS: [(&str, u32); 4] = [
-    ("init", 12),
-    ("snapshot", 15),
-    ("inspect", 16),
-    ("preflight", 17),
-];
+const USAGE: &str = "usage: gitcompat [--help | --version]";
 
-const USAGE: &str = "usage: gitcompat <command> --root <fixture-root>\n\
-commands: init, snapshot, inspect, preflight\n\
-options: --help, --version";
+/// Every other input: the product is not built yet (scaffold).
+const NOT_IMPLEMENTED: &str = "not implemented yet: see #11\n";
 
 /// What a run produced: exit code and the text for each stream.
 #[derive(Debug, PartialEq, Eq)]
@@ -26,7 +19,11 @@ pub struct Outcome {
 }
 
 fn outcome(code: u8, stdout: String, stderr: String) -> Outcome {
-    Outcome { code, stdout, stderr }
+    Outcome {
+        code,
+        stdout,
+        stderr,
+    }
 }
 
 fn version_line() -> String {
@@ -38,14 +35,7 @@ pub fn execute(args: &[String]) -> Outcome {
     match args.first().map(String::as_str) {
         Some("--help" | "-h") => outcome(0, format!("{USAGE}\n"), String::new()),
         Some("--version" | "-V") => outcome(0, version_line(), String::new()),
-        Some(name) => match COMMANDS.iter().find(|(command, _)| *command == name) {
-            Some((command, ticket)) => {
-                let message = format!("not implemented yet: {command}, see #{ticket}\n");
-                outcome(1, String::new(), message)
-            }
-            None => outcome(2, String::new(), format!("unknown command: {name}\n{USAGE}\n")),
-        },
-        None => outcome(2, String::new(), format!("{USAGE}\n")),
+        _ => outcome(1, String::new(), NOT_IMPLEMENTED.to_string()),
     }
 }
 
@@ -76,21 +66,5 @@ mod tests {
         assert_eq!(help.code, 0);
         let version = execute(&args(&["--version"]));
         assert!(version.stdout.starts_with("gitcompat "));
-    }
-
-    #[test]
-    fn planned_command_names_its_ticket() {
-        let result = execute(&args(&["snapshot"]));
-        assert_eq!(result.code, 1);
-        assert!(result.stdout.is_empty());
-        assert!(result.stderr.contains("not implemented yet"));
-        assert!(result.stderr.contains("see #15"));
-    }
-
-    #[test]
-    fn unknown_command_is_a_usage_error() {
-        let result = execute(&args(&["bogus"]));
-        assert_eq!(result.code, 2);
-        assert!(result.stdout.is_empty());
     }
 }

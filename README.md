@@ -10,7 +10,7 @@ A planned offline project. Product implementation has not started. The repositor
 
 ## Current status
 
-The fixtures describe expected results for future checks. The scaffold builds as `gitcompat` (`cargo build --locked --offline`, `cargo test --locked --offline`) and answers `gitcompat --help` and `--version`; the tool's commands exit 1 until their tickets land. No passing implementation tests are claimed beyond the smoke tests, and the Rust checks run in CI only.
+The fixtures describe expected results for future checks. The scaffold builds as `gitcompat` (`cargo build --locked --offline`, `cargo test --locked --offline`) and answers `gitcompat --help` and `--version`; any other input exits 1 with "not implemented yet: see #11" until the tickets land. No passing implementation tests are claimed beyond the smoke tests, and the Rust checks run in CI only.
 
 ## Licensing
 

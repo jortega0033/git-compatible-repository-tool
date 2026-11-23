@@ -38,16 +38,15 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     # The scaffold crate has no dependencies yet; ticket #10 adds sha1 and flate2
-    # (vendored) and pins the exact toolchain in rust-toolchain.toml.
+    # (vendored). rust-toolchain.toml pins the exact toolchain.
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install Rust toolchain
         shell: bash
-        # rustup is preinstalled on GitHub runners; rust-toolchain.toml selects stable
-        # until ticket #10 pins one release.
+        # rustup is preinstalled on GitHub runners; with no argument it installs the
+        # toolchain, profile and components named in rust-toolchain.toml.
         run: |
-          rustup toolchain install stable --profile minimal --component rustfmt --component clippy
-          rustup default stable
+          rustup toolchain install
           rustc --version
           cargo --version
           git --version

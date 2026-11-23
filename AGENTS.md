@@ -4,7 +4,7 @@ The full repository instructions are in [CLAUDE.md](CLAUDE.md). This file repeat
 
 ## Status
 
-Scaffold only: an empty Rust crate with module stubs and smoke tests; no product behaviour. The build, test, format and lint commands in `CLAUDE.md` are real; commands of the tool exit 1 until their ticket lands. There is no Rust toolchain on the owner's PC; Rust checks run in CI only.
+Scaffold only: an empty Rust crate with module stubs and smoke tests; no product behaviour. The build, test, format and lint commands in `CLAUDE.md` are real; every other input exits 1 with "not implemented yet: see #11" until the tickets land. There is no Rust toolchain on the owner's PC; Rust checks run in CI only.
 
 ## Test command
 
