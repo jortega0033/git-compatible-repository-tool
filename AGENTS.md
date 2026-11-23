@@ -4,15 +4,15 @@ The full repository instructions are in [CLAUDE.md](CLAUDE.md). This file repeat
 
 ## Status
 
-Planning only: there is no code, no `Cargo.toml` and no test yet. The commands in `CLAUDE.md` are planned and name the ticket that introduces each. There is no Rust toolchain on the owner's PC; Rust checks run in CI only.
+Scaffold only: an empty Rust crate with module stubs and smoke tests; no product behaviour. The build, test, format and lint commands in `CLAUDE.md` are real; every other input exits 1 with "not implemented yet: see #11" until the tickets land. There is no Rust toolchain on the owner's PC; Rust checks run in CI only.
 
-## Planned test command
+## Test command
 
 ```
 cargo test --locked --offline
 ```
 
-Planned: introduced by ticket #2. Rust, standard library first, minimal pinned crates behind narrow interfaces, offline. Do not add dependencies beyond the ones the plan names without the owner's decision.
+Real (scaffold smoke tests). Rust, standard library first, minimal pinned crates behind narrow interfaces, offline. Do not add dependencies beyond the ones the plan names without the owner's decision.
 
 ## Ticket work
 

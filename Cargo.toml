@@ -1,0 +1,16 @@
+[package]
+name = "git-compatible-repository-tool"
+version = "0.0.0"
+edition = "2021"
+publish = false
+description = "Offline Git-compatible repository tool for a bounded SHA-1 subset"
+
+# Scaffold: no dependencies yet. Ticket #10 adds sha1 and flate2 (vendored, behind hash and zlib).
+
+[lib]
+name = "gitcompat"
+path = "src/lib.rs"
+
+[[bin]]
+name = "gitcompat"
+path = "src/main.rs"

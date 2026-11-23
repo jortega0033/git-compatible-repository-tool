@@ -37,37 +37,28 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-    # The cargo steps below run only once Cargo.toml exists. Ticket #2 (walking
-    # skeleton) removes every `hashFiles('Cargo.toml') != ''` guard so they run
-    # unconditionally, and pins the toolchain in rust-toolchain.toml. Until then a
-    # green run proves nothing about Rust.
+    # The scaffold crate has no dependencies yet; ticket #10 adds sha1 and flate2
+    # (vendored). rust-toolchain.toml pins the exact toolchain.
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: No crate yet
-        if: ${{ hashFiles('Cargo.toml') == '' }}
-        shell: bash
-        run: 'echo "Cargo.toml is absent, so the cargo checks are skipped until ticket #2 adds the crate."'
       - name: Install Rust toolchain
-        if: ${{ hashFiles('Cargo.toml') != '' }}
         shell: bash
-        # rustup is preinstalled on GitHub runners. A rust-toolchain.toml (ticket #2)
-        # selects the pinned stable release; until it exists, use current stable.
+        # rustup is preinstalled on GitHub runners; with no argument it installs the
+        # toolchain, profile and components named in rust-toolchain.toml.
         run: |
-          rustup toolchain install stable --profile minimal --component rustfmt --component clippy
-          rustup default stable
+          rustup toolchain install
           rustc --version
           cargo --version
           git --version
       - name: cargo fmt
-        if: ${{ hashFiles('Cargo.toml') != '' }}
         run: cargo fmt --check
       - name: cargo clippy
         # run even if an earlier step failed, so every check reports
-        if: ${{ !cancelled() && hashFiles('Cargo.toml') != '' }}
+        if: ${{ !cancelled() }}
         run: cargo clippy --all-targets --locked --offline -- -D warnings
       - name: cargo build
-        if: ${{ !cancelled() && hashFiles('Cargo.toml') != '' }}
+        if: ${{ !cancelled() }}
         run: cargo build --locked --offline
       - name: cargo test
-        if: ${{ !cancelled() && hashFiles('Cargo.toml') != '' }}
+        if: ${{ !cancelled() }}
         run: cargo test --locked --offline

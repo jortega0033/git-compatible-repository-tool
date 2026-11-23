@@ -1,6 +1,8 @@
-# Implementer map (planned, not implemented)
+# Implementer map (scaffolded, behaviour not implemented)
 
-Nothing in this file exists in the repository yet. It maps the boundaries that [`TECHNICAL_SPEC.md`](TECHNICAL_SPEC.md) already requires onto proposed Rust modules, so that the tickets in epic #1 can work on separate files. The first ticket (#2) freezes the real layout and must update this file in the same pull request; where this file and the code disagree after that, the code wins and this file is fixed.
+The scaffold adds `src/lib.rs` (library `gitcompat`), a thin `src/main.rs` and a stub for `cli`, `report`, `limits`, `fixture`, `hash`, `zlib`, `object`, `tree`, `commit` and `refs`; each stub holds only its responsibility line and a link test. `index`, `merge`, `pack`, `export` and `tests/oracle` do not exist yet.
+
+Apart from the scaffold stubs named above, nothing in this file exists in the repository yet. It maps the boundaries that [`TECHNICAL_SPEC.md`](TECHNICAL_SPEC.md) already requires onto proposed Rust modules, so that the tickets in epic #1 can work on separate files. The first ticket (#2) freezes the real layout and must update this file in the same pull request; where this file and the code disagree after that, the code wins and this file is fixed.
 
 The specification stays the source of truth for behaviour. This file adds no rules.
 

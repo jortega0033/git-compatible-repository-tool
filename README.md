@@ -1,6 +1,6 @@
 # Git-compatible Repository Tool
 
-A planned offline project. Implementation has not started. The repository currently contains the product plan, technical specification and implementation backlog.
+A planned offline project. Product implementation has not started. The repository holds the product plan, technical specification, implementation backlog and an empty Rust crate scaffold.
 
 ## Plan
 
@@ -10,7 +10,7 @@ A planned offline project. Implementation has not started. The repository curren
 
 ## Current status
 
-The fixtures describe expected results for future checks. No working baseline or passing implementation tests are claimed. Required runtime versions and offline dependencies must be checked before the first build.
+The fixtures describe expected results for future checks. The scaffold builds as `gitcompat` (`cargo build --locked --offline`, `cargo test --locked --offline`) and answers `gitcompat --help` and `--version`; any other input exits 1 with "not implemented yet: see #11" until the tickets land. No passing implementation tests are claimed beyond the smoke tests, and the Rust checks run in CI only.
 
 ## Licensing
 
