@@ -2,7 +2,7 @@
 
 A dated record of the decisions the owner made for this repository, so the rules do not depend on anyone's memory of a conversation. Changing any entry needs the owner. An agent that finds a decision blocking a ticket stops and says so.
 
-All entries are dated 2026-11-22.
+Entries 1 to 12 are dated 2026-11-22, the later ones 2026-11-24.
 
 | # | Decision | Date | Implemented in |
 |---|---|---|---|
@@ -18,6 +18,11 @@ All entries are dated 2026-11-22.
 | 10 | Open decisions on tickets are settled with the ticket's stated default; where a ticket states none, the conservative option is taken and flagged in the issue. | 2026-11-22 | The list below (decisions D1 to D15 of epic #1); the issues themselves |
 | 11 | Rust is verified in CI only; nothing is installed on the owner's PC. | 2026-11-22 | `.github/workflows/ci.yml` (job `rust`), `CLAUDE.md` "Setup and commands" |
 | 12 | The ten UI rules in `docs/ui-quality.md` are binding, and the `ui-ux-pro-max` and `unslop` skills are installed in the repository and used for UI work and for copy. | 2026-11-22 | `docs/ui-quality.md`, `.claude/skills/ui-ux-pro-max/`, `.claude/skills/unslop/`, `.claude/skills/implement-ticket/SKILL.md` |
+| 13 | The repository has a program goal above milestone 1: an independent Git in Rust in six milestones, scored by the share of Git's own test suite that passes. | 2026-11-24 | Program issue #35, `README.md`, `docs/PRD.md` |
+| 14 | The product stays offline; transport (M4) is tested on loopback only. | 2026-11-24 | Program issue #35 |
+| 15 | `sha1` and `flate2` stay the only crates through M3; TLS and SHA-256 crates are decided when M4 and M5 start. | 2026-11-24 | Program issue #35, D3 |
+| 16 | Git's test suite is fetched at a pinned release and run from outside the repository, never copied in. The project licence is still not selected (D4). | 2026-11-24 | Program issue #35 |
+| 17 | The name `gitcompat` stays. | 2026-11-24 | D1 |
 
 ## Open ticket decisions settled by default (entry 10)
 
