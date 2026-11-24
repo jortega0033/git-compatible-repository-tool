@@ -1,6 +1,6 @@
 # Git-compatible Repository Tool
 
-Engineering plan for an original offline Rust CLI. This epic covers a bounded local compatibility subset and six implementation tickets estimated at **20–32 engineering hours**. The prototype, integration checks, and benchmarks are planned.
+Engineering plan for an original offline Rust CLI. The program builds an independent Git in six milestones ([#35](https://github.com/jortega0033/git-compatible-repository-tool/issues/35)). This document specifies milestone 1: a local compatibility subset in seven parent tickets and their sub-issues. The prototype, integration checks, and benchmarks are planned.
 
 ## Product requirements
 
@@ -10,7 +10,7 @@ A developer learning Git storage wants to create a small repository, see how fil
 
 **Epic workflow.** Save a nested snapshot, stage a subset of files, inspect staged and unstaged changes, and export a historical snapshot. Use two branches to reproduce a fast-forward, a clean two-parent merge of independent file changes, and a conflict reported without writing a commit or moving the ref. Inspect a separate fixture that Git has repacked within the declared pack subset.
 
-**Scope.** Rust CLI, regular files and directories, portable UTF-8 names, SHA-1 object IDs, and the files ref backend. Support modes 100644, 100755, and 40000. Defer smart HTTP, remote credentials, linked and sparse worktrees, submodules, symlinks, SHA-256, reftable, rename detection, text-level conflict resolution, delta packs, and full CLI flag parity. Restrict all mutations and exports to tool-owned disposable fixtures.
+**Scope of milestone 1.** Rust CLI, regular files and directories, portable UTF-8 names, SHA-1 object IDs, and the files ref backend. Support modes 100644, 100755, and 40000. Later milestones carry delta packs (M2), symlinks, rename detection and text-level conflict resolution (M3), smart HTTP (M4), and linked and sparse worktrees, submodules, SHA-256 and reftable (M5). Remote credentials and full CLI flag parity have no milestone yet. Restrict all mutations and exports to tool-owned disposable fixtures.
 
 **Success.** Installed Git accepts the tool's supported objects, refs, index, and reachable history. The tool reads Git-created fixtures with identical file bytes and equivalent supported status and ref results. Each unsupported format produces a typed diagnostic and leaves the fixture unmodified.
 
@@ -81,7 +81,7 @@ Deliver the documented compatibility subset, an accessible CLI demo, and an inde
 | E44-5 Bounded Git pack reader | E44-1 | 4–6 h |
 | E44-6 Offline integration and compatibility report | E44-2, E44-3, E44-4, E44-5 | 3–5 h |
 
-Freeze the object-store interface and fixture-path rules in E44-1. Then E44-2, E44-3, and E44-5 can run in parallel on distinct modules and fixture roots. E44-4 follows E44-2. Keep storage dispatch integration with the pack lane and shared CLI wiring with the lead. E44-6 integrates all lanes. The conservative total is 20 hours.
+Freeze the object-store interface and fixture-path rules in E44-1. Then E44-2, E44-3, and E44-5 can run in parallel on distinct modules and fixture roots. E44-4 follows E44-2. Keep storage dispatch integration with the pack lane and shared CLI wiring with the lead. E44-6 integrates all lanes.
 
 ### E44-1 · Loose objects and first snapshot
 
